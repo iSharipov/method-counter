@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.isharipov.method.counter.autoconfiguration.MethodCounterAutoConfiguration
