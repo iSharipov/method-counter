@@ -8,7 +8,7 @@
         <version>2.1.1.RELEASE</version>
         <relativePath/>
     </parent>
-    <groupId>io.github.ishariov.method.counter.example</groupId>
+    <groupId>io.github.ishariov</groupId>
     <artifactId>method-counter-spring-boot-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>

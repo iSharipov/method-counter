@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:2.0"
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'io.github.isharipov'
+version '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+project.ext {
+    aspectjVersion = '1.9.2'
+}
+
+apply plugin: 'aspectj'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation "io.github.isharipov:method-counter-core:0.0.1-SNAPSHOT"
+    aspectpath "io.github.isharipov:method-counter-core:0.0.1-SNAPSHOT"
+}
