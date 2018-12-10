@@ -2,6 +2,7 @@ package io.github.isharipov.method.counter.core.counter;
 
 import io.github.isharipov.method.counter.core.counter.behaviour.CounterBehaviourAspectSupport;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Tags;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,7 +19,7 @@ import java.lang.reflect.Method;
 public class CounterAspect extends CounterBehaviourAspectSupport {
 
     public CounterAspect() {
-        this(new SimpleMeterRegistry());
+        this(Metrics.globalRegistry.add(new SimpleMeterRegistry()));
     }
 
     public CounterAspect(MeterRegistry meterRegistry) {
