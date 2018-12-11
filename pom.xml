@@ -29,6 +29,7 @@
     <scm>
         <url>https://github.com/iSharipov/method-counter</url>
         <connection>scm:hg:https://github.com/iSharipov/method-counter</connection>
+        <developerConnection>scm:hg:https://github.com/iSharipov/method-counter</developerConnection>
     </scm>
 
     <developers>
