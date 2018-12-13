@@ -18,14 +18,6 @@ import java.lang.reflect.Method;
 @Aspect
 public class CounterAspect extends CounterBehaviourAspectSupport {
 
-    public CounterAspect() {
-        this(Metrics.globalRegistry.add(new SimpleMeterRegistry()));
-    }
-
-    public CounterAspect(MeterRegistry meterRegistry) {
-        super(meterRegistry);
-    }
-
     @Around("execution(* *(..)) && @annotation(io.github.isharipov.method.counter.core.counter.Counter)")
     public Object counterMethod(ProceedingJoinPoint pjp) throws Throwable {
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();

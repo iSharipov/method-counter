@@ -7,8 +7,10 @@ import io.github.isharipov.method.counter.core.behaviour.Behaviour;
 import io.github.isharipov.method.counter.core.behaviour.BehaviourContext;
 import io.github.isharipov.method.counter.core.counter.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.Tags;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 
 import java.lang.reflect.Method;
 
@@ -16,8 +18,8 @@ public abstract class CounterBehaviourAspectSupport {
 
     private MeterRegistry meterRegistry;
 
-    public CounterBehaviourAspectSupport(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
+    public CounterBehaviourAspectSupport() {
+        meterRegistry = Metrics.globalRegistry.add(new SimpleMeterRegistry());
     }
 
     protected Object invokeWithinBehaviour(Method method, Object[] args, Tags tags, AspectInvoker aspectInvoker) throws Throwable {
@@ -29,6 +31,10 @@ public abstract class CounterBehaviourAspectSupport {
         MetricInvoker metricAdapter = new MetricInvokerAdapter(counter, args, tags);
 
         return BehaviourContext.getBehaviour(counter.behaviour()).behave(aspectAdapter, metricAdapter);
+    }
+
+    public void setMeterRegistry(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
     }
 
     private Object invoke(AspectInvoker invoker) throws Throwable {

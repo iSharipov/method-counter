@@ -1,0 +1,71 @@
+plugins {
+    id 'java'
+}
+
+ext {
+    aspectjVersion = '1.9.2'
+}
+
+group 'io.github.isharipov'
+version '0.0.3-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    ajc
+    aspects
+    compile {
+        extendsFrom aspects
+    }
+}
+
+dependencies {
+    ajc "org.aspectj:aspectjtools:1.9.2"
+
+    implementation "io.github.isharipov:method-counter-core:0.0.2"
+    aspects "io.github.isharipov:method-counter-core:0.0.2"
+
+    compileOnly "org.projectlombok:lombok:1.18.4"
+    annotationProcessor "org.projectlombok:lombok:1.18.4"
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+def aspectj = { destDir, aspectPath, inpath, classpath ->
+    ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
+            classpath: configurations.ajc.asPath)
+
+    ant.iajc(
+            maxmem: "1024m", fork: "true", Xlint: "ignore",
+            destDir: destDir,
+            aspectPath: aspectPath,
+            inpath: inpath,
+            classpath: classpath,
+            source: project.sourceCompatibility,
+            target: project.targetCompatibility
+    )
+}
+
+compileJava {
+    doLast {
+        aspectj project.sourceSets.main.output.classesDir.absolutePath,
+                configurations.aspects.asPath,
+                project.sourceSets.main.output.classesDir.absolutePath,
+                project.sourceSets.main.runtimeClasspath.asPath
+    }
+}
+
+compileTestJava {
+    dependsOn jar
+
+    doLast {
+        aspectj project.sourceSets.test.output.classesDir.absolutePath,
+                configurations.aspects.asPath + jar.archivePath,
+                project.sourceSets.test.output.classesDir.absolutePath,
+                project.sourceSets.test.runtimeClasspath.asPath
+    }
+}
