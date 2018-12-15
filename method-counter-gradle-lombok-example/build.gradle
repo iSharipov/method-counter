@@ -26,8 +26,8 @@ configurations {
 dependencies {
     ajc "org.aspectj:aspectjtools:1.9.2"
 
-    implementation "io.github.isharipov:method-counter-core:0.0.2"
-    aspects "io.github.isharipov:method-counter-core:0.0.2"
+    implementation "io.github.isharipov:method-counter-core:0.0.3"
+    aspects "io.github.isharipov:method-counter-core:0.0.3"
 
     compileOnly "org.projectlombok:lombok:1.18.4"
     annotationProcessor "org.projectlombok:lombok:1.18.4"
