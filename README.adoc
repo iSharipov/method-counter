@@ -1,0 +1,100 @@
+= Method counter
+
+Simple counter of method calls through AOP.
+
+Counter works based on CTW (compile-time weaving) principle.
+
+You can use the library for both cases:
+
+* Simple libraries (Testing purposes)
+* With Spring Framework
+
+= Getting Started
+== Dependencies
+=== Gradle
+
+You can see a detailed example at the https://github.com/iSharipov/method-counter/tree/master/method-counter-gradle-example[Gradle example project].
+
+To add library to your project without Spring, add core dependency
+
+.build.gradle
+[source, groovy]
+----
+compile group: 'io.github.isharipov', name: 'method-counter-core', version: '0.0.3
+----
+If you doesnt have aspect support in your project you have to setting up an https://plugins.gradle.org/plugin/aspectj.gradle[gradle aspectj plugin] and add core library as aspectpath
+
+.build.gradle
+[source, groovy]
+----
+buildscript {
+    dependencies {
+        classpath "gradle.plugin.aspectj:gradle-aspectj:0.1.6"
+    }
+}
+
+ext{
+    aspectjVersion = '1.9.2'
+}
+
+dependencies {
+    implementation "io.github.isharipov:method-counter-core:0.0.3"
+    aspectpath "io.github.isharipov:method-counter-core:0.0.3"
+}
+----
+
+=== Maven
+
+.pom.xml
+[source, xml]
+----
+<dependency>
+    <groupId>io.github.isharipov</groupId>
+    <artifactId>method-counter-core</artifactId>
+    <version>0.0.3</version>
+</dependency>
+----
+If you doesnt have aspect support in your project you have to setting up an https://www.mojohaus.org/aspectj-maven-plugin/[aspectj maven plugin] and add core library as aspectLibrary
+
+.pom.xml
+[source, xml]
+----
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>aspectj-maven-plugin</artifactId>
+    <version>1.11</version>
+        <dependencies>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjtools</artifactId>
+                <version>1.9.2</version>
+            </dependency>
+        </dependencies>
+        <configuration>
+            <complianceLevel>1.8</complianceLevel>
+            <source>1.8</source>
+            <target>1.8</target>
+            <showWeaveInfo>true</showWeaveInfo>
+            <verbose>true</verbose>
+            <Xlint>ignore</Xlint>
+            <encoding>UTF-8</encoding>
+            <aspectLibraries>
+                <aspectLibrary>
+                    <groupId>io.github.isharipov</groupId>
+                    <artifactId>method-counter-core</artifactId>
+                </aspectLibrary>
+            </aspectLibraries>
+        </configuration>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>compile</goal>
+                    <goal>test-compile</goal>
+                </goals>
+                <configuration>
+                    <showWeaveInfo>true</showWeaveInfo>
+                </configuration>
+            <execution>
+        </executions>
+</plugin>
+----

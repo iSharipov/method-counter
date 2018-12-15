@@ -17,12 +17,6 @@ apply plugin: "aspectj.gradle"
 group 'io.github.isharipov'
 version '0.0.3-SNAPSHOT'
 
-sourceCompatibility = 1.8
-
-project.ext {
-    aspectjVersion = '1.9.2'
-}
-
 repositories {
     mavenCentral()
     mavenLocal()
