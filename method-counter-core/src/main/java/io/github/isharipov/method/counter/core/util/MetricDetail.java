@@ -6,9 +6,9 @@ import io.micrometer.core.instrument.Meter;
 
 public class MetricDetail {
     private final Meter.Id meter;
-    private final Double count;
+    private final long count;
 
-    public MetricDetail(Meter.Id meter, Double count) {
+    public MetricDetail(Meter.Id meter, long count) {
         this.meter = meter;
         this.count = count;
     }
@@ -17,7 +17,7 @@ public class MetricDetail {
         return meter;
     }
 
-    public Double getCount() {
+    public long getCount() {
         return count;
     }
 

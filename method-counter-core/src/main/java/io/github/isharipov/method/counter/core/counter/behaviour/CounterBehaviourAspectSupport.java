@@ -37,6 +37,10 @@ public abstract class CounterBehaviourAspectSupport {
         this.meterRegistry = meterRegistry;
     }
 
+    public MeterRegistry getMeterRegistry() {
+        return meterRegistry;
+    }
+
     private Object invoke(AspectInvoker invoker) throws Throwable {
         return invoker.proceedWithInvocation();
     }

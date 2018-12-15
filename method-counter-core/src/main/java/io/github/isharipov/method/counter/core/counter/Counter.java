@@ -20,4 +20,6 @@ public @interface Counter {
     Class<? extends CounterType> type() default DefaultCounterType.class;
 
     Behaviour.Type behaviour() default Behaviour.Type.SUCCESS;
+
+    boolean timer() default false;
 }

@@ -24,6 +24,6 @@ public class DefaultCounterType implements CounterType {
         metricName = metricName.isEmpty() ? DEFAULT_METRIC_NAME : metricName;
         Counter counter = meterRegistry.counter(metricName, tags);
         counter.increment();
-        log.debug(new MetricDetail(counter.getId(), counter.count()).toString());
+        log.debug(new MetricDetail(counter.getId(), (long) counter.count()).toString());
     }
 }
