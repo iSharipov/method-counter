@@ -12,7 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * AspectJ for intercepting methods annotated with @Counter.
@@ -39,7 +40,11 @@ public class CounterAspect extends CounterBehaviourAspectSupport {
                 try {
                     Timer timer = getMeterRegistry().timer("methods.timer", tagsBasedOnJoinPoint);
                     sample.stop(timer);
-                    log.debug(new TimerMetricDetail(timer.getId(), timer.count(), timer.totalTime(TimeUnit.SECONDS), timer.max(TimeUnit.SECONDS)).toString());
+                    log.debug(new TimerMetricDetail(
+                            timer.getId(),
+                            timer.count(),
+                            timer.totalTime(SECONDS),
+                            timer.max(SECONDS)).toString());
                 } catch (Exception e) {
                     // none
                 }
