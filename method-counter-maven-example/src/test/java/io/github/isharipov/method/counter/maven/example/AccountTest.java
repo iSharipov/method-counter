@@ -1,4 +1,4 @@
-package io.github.isharipov.method.counter.core;
+package io.github.isharipov.method.counter.maven.example;
 
 import io.github.isharipov.method.counter.core.behaviour.Behaviour;
 import io.micrometer.core.instrument.Counter;
@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class AccountTest {
+
     @Test
     public void getAccountTest() {
         Account account = new Account();

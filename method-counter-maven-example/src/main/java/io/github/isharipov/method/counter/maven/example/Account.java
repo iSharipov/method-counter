@@ -1,4 +1,4 @@
-package io.github.isharipov.method.counter.core;
+package io.github.isharipov.method.counter.maven.example;
 
 import io.github.isharipov.method.counter.core.counter.Counter;
 
