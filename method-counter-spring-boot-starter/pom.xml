@@ -3,7 +3,7 @@
     <parent>
         <artifactId>method-counter</artifactId>
         <groupId>io.github.isharipov</groupId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,13 +13,13 @@
         <dependency>
             <groupId>io.github.isharipov</groupId>
             <artifactId>method-counter-core</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.4</version>
         </dependency>
 
         <dependency>
             <groupId>io.github.isharipov</groupId>
             <artifactId>method-counter-spring-boot-autoconfigure</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.4</version>
         </dependency>
     </dependencies>
 
