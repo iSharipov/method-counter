@@ -5,9 +5,9 @@ import io.github.isharipov.method.counter.core.MetricInvoker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FailureBehaviour implements Behaviour {
+public class Failure implements Behaviour {
 
-    private static final Logger log = LoggerFactory.getLogger(SuccessBehaviour.class);
+    private static final Logger log = LoggerFactory.getLogger(Success.class);
 
     @Override
     public Object behave(AspectInvoker aspectInvoker, MetricInvoker metricInvoker) throws Throwable {

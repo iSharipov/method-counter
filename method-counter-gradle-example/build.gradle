@@ -23,6 +23,6 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.isharipov:method-counter-core:0.0.3"
-    aspectpath "io.github.isharipov:method-counter-core:0.0.3"
+    implementation "io.github.isharipov:method-counter-core:0.0.6"
+    aspectpath "io.github.isharipov:method-counter-core:0.0.6"
 }

@@ -1,0 +1,3 @@
+io.github.isharipov.method.counter.core.behaviour.Always
+io.github.isharipov.method.counter.core.behaviour.Failure
+io.github.isharipov.method.counter.core.behaviour.Success

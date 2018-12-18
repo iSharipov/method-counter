@@ -1,6 +1,7 @@
 package io.github.isharipov.method.counter.core.counter;
 
 import io.github.isharipov.method.counter.core.behaviour.Behaviour;
+import io.github.isharipov.method.counter.core.behaviour.Success;
 import io.github.isharipov.method.counter.core.counter.type.CounterType;
 import io.github.isharipov.method.counter.core.counter.type.DefaultCounterType;
 
@@ -19,7 +20,7 @@ public @interface Counter {
 
     Class<? extends CounterType> type() default DefaultCounterType.class;
 
-    Behaviour.Type behaviour() default Behaviour.Type.SUCCESS;
+    Class<? extends Behaviour> behaviour() default Success.class;
 
     boolean timer() default false;
 }

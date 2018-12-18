@@ -3,8 +3,7 @@ package io.github.isharipov.method.counter.core.counter.behaviour;
 
 import io.github.isharipov.method.counter.core.AspectInvoker;
 import io.github.isharipov.method.counter.core.MetricInvoker;
-import io.github.isharipov.method.counter.core.behaviour.Behaviour;
-import io.github.isharipov.method.counter.core.behaviour.BehaviourContext;
+import io.github.isharipov.method.counter.core.behaviour.BehaviourProvider;
 import io.github.isharipov.method.counter.core.counter.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
@@ -24,13 +23,13 @@ public abstract class CounterBehaviourAspectSupport {
 
     protected Object invokeWithinBehaviour(Method method, Object[] args, Tags tags, AspectInvoker aspectInvoker) throws Throwable {
         Counter counter = method.getAnnotation(Counter.class);
-        Behaviour.Type behaviour = counter.behaviour();
-        tags = tags.and(Tag.of("behaviour", behaviour.name().toLowerCase()));
+        Class behaviour = counter.behaviour();
+        tags = tags.and(Tag.of("behaviour", behaviour.getSimpleName().toLowerCase()));
 
         AspectInvoker aspectAdapter = new AspectBehaviourInvokerAdapter(aspectInvoker);
         MetricInvoker metricAdapter = new MetricInvokerAdapter(counter, args, tags);
 
-        return BehaviourContext.getBehaviour(counter.behaviour()).behave(aspectAdapter, metricAdapter);
+        return BehaviourProvider.behaviourProvider.behaviour(counter.behaviour()).behave(aspectAdapter, metricAdapter);
     }
 
     public void setMeterRegistry(MeterRegistry meterRegistry) {
