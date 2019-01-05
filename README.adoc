@@ -45,6 +45,8 @@ dependencies {
 
 === Maven
 
+You can see a detailed example at the https://github.com/iSharipov/method-counter/tree/master/method-counter-maven-example[Maven example project].
+
 .pom.xml
 [source, xml]
 ----
@@ -98,3 +100,224 @@ If you doesnt have aspect support in your project you have to setting up an http
     </executions>
 </plugin>
 ----
+
+== Project Lombok Support
+=== Gradle
+If you have Project Lombok in your current Gradle project you have to use ant directly
+
+You can see a detailed example at the https://github.com/iSharipov/method-counter/tree/master/method-counter-gradle-lombok-example[Gradle Lombok example project].
+
+.build.gradle
+[source, groovy]
+----
+configurations {
+    ajc
+    aspects
+    compile {
+        extendsFrom aspects
+    }
+}
+
+dependencies {
+    ajc "org.aspectj:aspectjtools:1.9.2"
+
+    implementation "io.github.isharipov:method-counter-core:0.0.6"
+    aspects "io.github.isharipov:method-counter-core:0.0.6"
+
+    compileOnly "org.projectlombok:lombok:1.18.4"
+    annotationProcessor "org.projectlombok:lombok:1.18.4"
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+def aspectj = { destDir, aspectPath, inpath, classpath ->
+    ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
+            classpath: configurations.ajc.asPath)
+
+    ant.iajc(
+            maxmem: "1024m", fork: "true", Xlint: "ignore",
+            destDir: destDir,
+            aspectPath: aspectPath,
+            inpath: inpath,
+            classpath: classpath,
+            source: project.sourceCompatibility,
+            target: project.targetCompatibility
+    )
+}
+
+compileJava {
+    doLast {
+        aspectj project.sourceSets.main.output.classesDir.absolutePath,
+                configurations.aspects.asPath,
+                project.sourceSets.main.output.classesDir.absolutePath,
+                project.sourceSets.main.runtimeClasspath.asPath
+    }
+}
+----
+
+Additional explanation you can find in the http://javagalleog.blogspot.de/2016/03/gradle-and-aspectj.html[article].
+
+=== Maven
+
+You can see a detailed example at the https://github.com/iSharipov/method-counter/tree/master/method-counter-maven-lombok-example[Maven Lombok example project].
+
+.pom.xml
+[source, xml]
+----
+<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>io.github.isharipov.method.counter.maven.lombok.example.Main</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.11</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <complianceLevel>1.8</complianceLevel>
+                    <encoding>UTF-8</encoding>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>io.github.isharipov</groupId>
+                            <artifactId>method-counter-core</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                    <forceAjcCompile>true</forceAjcCompile>
+                    <sources/>
+                    <weaveDirectories>
+                        <weaveDirectory>${project.build.directory}/classes</weaveDirectory>
+                    </weaveDirectories>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <id>aspectj-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+----
+
+== Spring Boot Support
+
+To use method counter with Spring Boot, there is https://github.com/iSharipov/method-counter/tree/master/method-counter-spring-boot-starter[Method counter Spring Boot Starter project]
+
+To use it in your Spring Boot Project just add dependency
+
+=== Maven
+
+.pom.xml
+[source, xml]
+----
+<dependency>
+    <groupId>io.github.isharipov</groupId>
+    <artifactId>method-counter-spring-boot-starter</artifactId>
+    <version>0.0.3</version>
+</dependency>
+----
+
+And setting up aspectj maven plugin
+.pom.xml
+[source, xml]
+----
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>aspectj-maven-plugin</artifactId>
+    <version>1.11</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+    </dependencies>
+    <configuration>
+        <complianceLevel>1.8</complianceLevel>
+        <source>1.8</source>
+        <target>1.8</target>
+        <showWeaveInfo>true</showWeaveInfo>
+        <verbose>true</verbose>
+        <Xlint>ignore</Xlint>
+        <encoding>UTF-8</encoding>
+        <aspectLibraries>
+            <aspectLibrary>
+                <groupId>io.github.isharipov</groupId>
+                <artifactId>method-counter-core</artifactId>
+            </aspectLibrary>
+        </aspectLibraries>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>compile</goal>
+                <goal>test-compile</goal>
+            </goals>
+            <configuration>
+                <showWeaveInfo>true</showWeaveInfo>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+----
+
+== Basic Functionality
+
+The Counter is an annotation `@Counter`
+
+[source, java]
+----
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD})
+@Inherited
+public @interface Counter {
+
+    String name() default "";
+
+    Class<? extends CounterType> type() default DefaultCounterType.class;
+
+    Class<? extends Behaviour> behaviour() default Success.class;
+
+    boolean timer() default false;
+}
+----
+
+By default it has a set of parameters:
+
+* name - ""
+* type - DefaultCounterType.class
+* behaviour - Success.class
+* timer - false
+
+Out of the box `Counter` has three behaviours:
+
+* Success - count only if successful method execution
+* Always - count anyway
+* Failure - count only if method ended with an exception
